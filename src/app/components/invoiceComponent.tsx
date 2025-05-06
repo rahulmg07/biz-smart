@@ -50,13 +50,14 @@ export default function InvoiceComponent() {
                     </tr>
 
                     <tr className={styles.tableHeaderRow}>
-                        <th>SL.NO</th>
-                        <th>Description</th>
-                        <th>HSN Code</th>
-                        <th>Qty</th>
-                        <th>UDM</th>
-                        <th>Rate</th>
-                        <th>Total</th>
+                     <th className={styles.colSlno}>SL.NO</th>
+                     <th className={styles.colDesc}>Description</th>
+                     <th className={styles.colHsn}>HSN Code</th>
+                     <th className={styles.colQty}>Qty</th>
+                     <th className={styles.colUdm}>UDM</th>
+                     <th className={styles.colRate}>Rate</th>
+                     <th className={styles.colTotal}>Total</th>
+
                     </tr>
 
                     <tr>
@@ -66,7 +67,7 @@ export default function InvoiceComponent() {
                         <td>1</td>
                         <td>Nos</td>
                         <td>350000</td>
-                        <td>3,50,000</td>
+                        <td>3,55,000</td>
                     </tr>
 
                     <tr>

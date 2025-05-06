@@ -57,6 +57,28 @@
     text-align: center;
 }
 
+.colSlno {
+    width: 5%;
+  }
+  .colDesc {
+    width: 40%;
+  }
+  .colHsn {
+    width: 10%;
+  }
+  .colQty {
+    width: 8%;
+  }
+  .colUdm {
+    width: 7%;
+  }
+  .colRate {
+    width: 15%;
+  }
+  .colTotal {
+    width: 15%;
+  }  
+
 .rightAlign {
     text-align: right;
 }

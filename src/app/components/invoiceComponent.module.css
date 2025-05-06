@@ -1,0 +1,79 @@
+/* InvoiceComponent.module.css */
+
+.invoiceContainer {
+    padding: 16px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+}
+
+.invoiceGST {
+    text-align: left;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 12px;
+}
+
+.invoiceTable {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.invoiceTable td,
+.invoiceTable th {
+    border: 1px solid #000;
+    padding: 6px;
+    vertical-align: top;
+}
+
+.invoiceTable th {
+    background-color: #f0f0f0;
+    text-align: left;
+}
+
+.logoPlaceholder {
+    height: 100px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    border: 1px dashed #888;
+}
+
+.companyInfo {
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.invoiceTitle {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px;
+}
+
+.tableHeaderRow th {
+    text-align: center;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+@media print {
+    .invoiceContainer {
+        padding: 0;
+        font-size: 12px;
+    }
+
+    .invoiceTable td,
+    .invoiceTable th {
+        padding: 4px;
+    }
+
+    .invoiceTitle {
+        font-size: 16px;
+        padding: 8px;
+    }
+}

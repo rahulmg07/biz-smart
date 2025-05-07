@@ -15,7 +15,8 @@
 }
 
 .invoiceTable {
-    width: 100%;
+    display: block;
+    width: 80%;
     border-collapse: collapse;
     table-layout: fixed;
 }
@@ -53,31 +54,42 @@
     padding: 12px;
 }
 
+.companyName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .tableHeaderRow th {
     text-align: center;
 }
 
 .colSlno {
-    width: 5%;
-  }
-  .colDesc {
-    width: 40%;
-  }
-  .colHsn {
     width: 10%;
-  }
-  .colQty {
+}
+
+.colDesc {
+    width: 35%;
+}
+
+.colHsn {
+    width: 10%;
+}
+
+.colQty {
     width: 8%;
-  }
-  .colUdm {
+}
+
+.colUdm {
     width: 7%;
-  }
-  .colRate {
+}
+
+.colRate {
     width: 15%;
-  }
-  .colTotal {
+}
+
+.colTotal {
     width: 15%;
-  }  
+}
 
 .rightAlign {
     text-align: right;

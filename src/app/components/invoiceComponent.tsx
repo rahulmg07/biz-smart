@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import styles from "./invoiceComponent.module.css";
 import ProductList, { ProductDetails } from "./productListComponent";
+import { handleExportToPDF, printInvoice } from '../utils';
+import { useRef } from "react";
 
 interface InvoiceData {
     company: {
@@ -39,7 +41,7 @@ const defaultValues = {
         address2: "Nagasandra Post Bangalore-560073.",
         contact: "CONTACT: NAGARAJU M S.",
         email: "EMAIL: ups73.2024@gmail.com",
-        phoneNumbers: ["PHONE NO:9902282519"," ","7975299735"],
+        phoneNumbers: ["PHONE NO:9902282519", " ", "7975299735"],
         GSTIN: "29ANOPH7514D1ZW",
     },
     taxInvoice: {
@@ -93,6 +95,9 @@ export default function InvoiceComponent() {
         }));
     };
 
+    const invoiceRef = useRef<HTMLDivElement>(null);
+
+
 
     return (
         <>
@@ -105,7 +110,7 @@ export default function InvoiceComponent() {
                 {" "}Edit Mode
             </label>
 
-            <div className={styles.invoiceContainer}>
+            <div className={styles.invoiceContainer} ref={invoiceRef}>
                 <table className={styles.invoiceTable}>
                     <thead>
                         <tr>
@@ -113,9 +118,11 @@ export default function InvoiceComponent() {
                         </tr>
                         <tr>
 
-                            <td colSpan={3} className={styles.logoPlaceholder}>LOGO</td>
-                            <td colSpan={4} className={styles.companyInfo}>
-                                <strong>{invoiceData.company.name}style="font-size: 18px;"</strong><br />
+                            <td colSpan={2} className={styles.logoPlaceholder}>
+                                <img src="/UPSlogo.jpg" alt="Logo" />
+                            </td>
+                            <td colSpan={5} className={styles.companyInfo}>
+                                <strong>{invoiceData.company.name}</strong><br />
                                 {invoiceData.company.description1}<br />
                                 {invoiceData.company.description2}<br />
                                 {invoiceData.company.address1}<br />
@@ -134,14 +141,14 @@ export default function InvoiceComponent() {
                     <tbody>
                         <tr>
                             <td colSpan={3}>
-                                <strong>Buyer (Bill to):</strong>&nbsp;
+                                <strong>Buyer (Bill to):</strong>&nbsp;<br />
                                 {isEditMode ? (
                                     <input
                                         type="text"
                                         name="billTo"
                                         value={invoiceData.taxInvoice.billTo}
                                         onChange={(e) => handleChange(e, "taxInvoice")}
-                                    /> 
+                                    />
                                 ) : (
                                     <span>{invoiceData.taxInvoice.billTo || "-"}</span>
                                 )}
@@ -186,11 +193,11 @@ export default function InvoiceComponent() {
                                 <br />
                                 <strong>P.O date:</strong>&nbsp;
                                 {isEditMode ? (
-                                     <input type="date"
+                                    <input type="date"
                                         name="poDate"
                                         value={invoiceData.taxInvoice.poDate}
-                                        onChange={(e) => handleChange(e, "taxInvoice")} 
-                                     /> 
+                                        onChange={(e) => handleChange(e, "taxInvoice")}
+                                    />
                                 ) : (
                                     <span>{invoiceData.taxInvoice.poDate || "-"}</span>
                                 )}
@@ -198,9 +205,9 @@ export default function InvoiceComponent() {
                                 <strong>Vehicle No:</strong>&nbsp;
                                 {isEditMode ? (
                                     <input type="text"
-                                       name="vehicleNumber"
-                                       value={invoiceData.taxInvoice.vehicleNumber}
-                                       onChange={(e) => handleChange(e, "taxInvoice")}
+                                        name="vehicleNumber"
+                                        value={invoiceData.taxInvoice.vehicleNumber}
+                                        onChange={(e) => handleChange(e, "taxInvoice")}
                                     />
                                 ) : (
                                     <span>{invoiceData.taxInvoice.vehicleNumber || "-"}</span>
@@ -208,9 +215,7 @@ export default function InvoiceComponent() {
                                 <br />
                             </td>
                         </tr>
-                        <ProductList data={invoiceData.productDetails} setData={updateProductDetails} />
-
-
+                        <ProductList data={invoiceData.productDetails} setData={updateProductDetails} isEditMode={isEditMode} />
                         {/* <tr className={styles.tableHeaderRow}>
                             <th className={styles.colSlno}>SL.NO</th>
                             <th className={styles.colDesc}>Description</th>
@@ -243,12 +248,6 @@ export default function InvoiceComponent() {
 
                         <tr>
                             <td colSpan={7}>
-                                <strong>Amount in Words:</strong> Four lakhs thirteen thousand rupees only.
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td colSpan={7}>
                                 <strong>Declaration:</strong> We declare that this invoice shows the actual price of the goods described and that all materials are true and correct.
                             </td>
                         </tr>
@@ -262,6 +261,7 @@ export default function InvoiceComponent() {
             </div>
 
             <button onClick={handleSubmit}>Submit</button>
+            <button onClick={() => window.print()}>Export to PDF</button>
         </>
 
     );

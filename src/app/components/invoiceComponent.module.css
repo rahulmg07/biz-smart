@@ -1,7 +1,7 @@
 /* InvoiceComponent.module.css */
 
 .invoiceContainer {
-    padding: 16px;
+    padding: 12px;
     font-family: Arial, sans-serif;
     font-size: 14px;
     color: #000;
@@ -9,14 +9,14 @@
 
 .invoiceGST {
     text-align: left;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: normal;
-    padding: 12px;
+    padding: 10px;
 }
 
 .invoiceTable {
     display: block;
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
@@ -24,7 +24,7 @@
 .invoiceTable td,
 .invoiceTable th {
     border: 1px solid #000;
-    padding: 6px;
+    padding: 4px;
     vertical-align: top;
 }
 
@@ -41,26 +41,33 @@
     border: 1px dashed #888;
 }
 
+.logoPlaceholder img {
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+}
+
 .companyInfo {
     text-align: left;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5;
 }
 
 .invoiceTitle {
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
-    padding: 12px;
+    padding: 10px;
 }
 
 .companyName {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 .tableHeaderRow th {
     text-align: center;
+    font-size: 12px;
 }
 
 .colSlno {
@@ -95,7 +102,7 @@
     text-align: right;
 }
 
-@media print {
+/* @media print {
     .invoiceContainer {
         padding: 0;
         font-size: 12px;
@@ -110,4 +117,4 @@
         font-size: 16px;
         padding: 8px;
     }
-}
+} */

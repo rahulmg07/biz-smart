@@ -40,3 +40,41 @@ a {
     color-scheme: dark;
   }
 }
+
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #invoiceContainer,
+  #invoiceContainer * {
+    visibility: visible;
+  }
+
+  #invoiceContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Optional: Hide buttons or inputs during print */
+  button,
+  input[type="checkbox"],
+  input[type="text"],
+  input[type="date"] {
+    display: none;
+  }
+
+  /* Optional: Remove scrollbars if any */
+  html,
+  body {
+    overflow: visible !important;
+  }
+
+  /* Optional: Force page breaks (if invoice is long) */
+  .page-break {
+    page-break-after: always;
+  }
+}

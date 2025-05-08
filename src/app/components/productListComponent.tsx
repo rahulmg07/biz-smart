@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
+import { numberToWords } from '../utils'
 import styles from "./invoiceComponent.module.css";
 
 export interface ProductDetails {
@@ -15,9 +16,10 @@ export interface ProductDetails {
 interface ProductListProps {
     data: ProductDetails[];
     setData: (updatedData: ProductDetails[]) => void;
+    isEditMode: boolean;
 }
 
-export default function ProductList({ data, setData }: ProductListProps) {
+export default function ProductList({ data, setData, isEditMode }: ProductListProps) {
     const emptyRow: ProductDetails = {
         slNo: 0,
         description: "",
@@ -25,7 +27,7 @@ export default function ProductList({ data, setData }: ProductListProps) {
         quantity: 0,
         uom: "",
         price: 0,
-        total: 0
+        total: 0,
     };
 
     useEffect(() => {
@@ -45,15 +47,31 @@ export default function ProductList({ data, setData }: ProductListProps) {
 
     const handleChange = (index: number, field: keyof ProductDetails, value: string) => {
         const updatedRows = [...data];
-        const parsedValue = (field === "quantity" || field === "price" || field === "total" || field === "slNo")
-            ? Number(value) || 0
-            : value;
-        updatedRows[index] = {
-            ...updatedRows[index],
-            [field]: parsedValue
-        };
+        const parsedValue =
+            field === "quantity" || field === "price" || field === "total" || field === "slNo"
+                ? Number(value) || 0
+                : value;
+        const updatedRow = { ...updatedRows[index], [field]: parsedValue };
+
+        // Recalculate total for row
+        if (field === "quantity" || field === "price") {
+            updatedRow.total = updatedRow.quantity * updatedRow.price;
+        }
+
+        updatedRows[index] = updatedRow;
         setData(updatedRows);
     };
+
+    // Derived calculations using useMemo
+    const totalAmount = useMemo(
+        () => data.reduce((sum, row) => sum + (row.quantity * row.price), 0),
+        [data]
+    );
+
+    const cgst = parseFloat((totalAmount * 0.09).toFixed(2));
+    const sgst = parseFloat((totalAmount * 0.09).toFixed(2));
+    const grandTotal = totalAmount + cgst + sgst;
+    const amountInWords = numberToWords(Math.round(grandTotal));
 
     return (
         <>
@@ -65,82 +83,110 @@ export default function ProductList({ data, setData }: ProductListProps) {
                 <th className={styles.colUdm}>UDM</th>
                 <th className={styles.colRate}>Rate</th>
                 <th className={styles.colTotal}>Total</th>
+                <th></th>
             </tr>
+
             {data.map((row, index) => (
-                <tr key={index}>
+                <tr key={index}
+                    className={styles.tableHeaderRow}>
                     <td>
+                        {isEditMode ? (
                         <input
                             type="number"
                             value={row.slNo}
                             onChange={(e) => handleChange(index, "slNo", e.target.value)}
                         />
+                        ) : (
+                            <span>{row.slNo || "-"}</span>
+                        )}
                     </td>
                     <td>
+                        {isEditMode ? (
                         <input
                             type="text"
                             value={row.description}
                             onChange={(e) => handleChange(index, "description", e.target.value)}
                         />
+                        ) : (
+                            <span>{row.description || "-"}</span>
+                        )}
                     </td>
                     <td>
+                        {isEditMode ? (
                         <input
                             type="text"
                             value={row.hsnCode}
                             onChange={(e) => handleChange(index, "hsnCode", e.target.value)}
                         />
+                        ) : (
+                            <span>{row.hsnCode || "-"}</span>
+                        )}
                     </td>
                     <td>
+                        {isEditMode ? (
                         <input
                             type="number"
                             value={row.quantity}
                             onChange={(e) => handleChange(index, "quantity", e.target.value)}
                         />
+                        ) : (
+                            <span>{row.quantity || "-"}</span>
+                        )}
                     </td>
                     <td>
-                        <input
-                            type="text"
-                            value={row.uom}
-                            onChange={(e) => handleChange(index, "uom", e.target.value)}
-                        />
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                value={row.uom}
+                                onChange={(e) => handleChange(index, "uom", e.target.value)}
+                            />
+                        ) : (
+                            <span>{row.uom || "-"}</span>
+                        )}
                     </td>
                     <td>
+                        {isEditMode ? (
                         <input
                             type="number"
                             value={row.price}
                             onChange={(e) => handleChange(index, "price", e.target.value)}
                         />
+                        ) : (
+                            <span>{row.price || "-"}</span>
+                        )}
                     </td>
                     <td>
-                        <input
-                            type="number"
-                            value={row.total}
-                            onChange={(e) => handleChange(index, "total", e.target.value)}
-                        />
+                        {isEditMode ? (
+                        <input type="number" value={row.total} readOnly />
+                        ) : (
+                            <span>{row.total || "-"}</span>
+                        )}
                     </td>
                     <td>
                         <button onClick={handleAddRow}>+</button>
-                        {data.length > 1 && (
-                            <button onClick={() => handleRemoveRow(index)}>-</button>
-                        )}
+                        {data.length > 1 && <button onClick={() => handleRemoveRow(index)}>-</button>}
                     </td>
                 </tr>
             ))}
 
             <tr>
                 <td colSpan={6} className={styles.rightAlign}>TOTAL</td>
-                <td>3,55,000</td>
+                <td>{totalAmount.toLocaleString("en-IN")}</td>
             </tr>
             <tr>
                 <td colSpan={6} className={styles.rightAlign}>CGST 9%</td>
-                <td>31,500</td>
+                <td>{cgst.toLocaleString("en-IN")}</td>
             </tr>
             <tr>
                 <td colSpan={6} className={styles.rightAlign}>SGST 9%</td>
-                <td>31,500</td>
+                <td>{sgst.toLocaleString("en-IN")}</td>
             </tr>
             <tr>
                 <td colSpan={6} className={styles.rightAlign}>GRAND TOTAL</td>
-                <td>4,13,000</td>
+                <td>{grandTotal.toLocaleString("en-IN")}</td>
+            </tr>
+            <tr>
+                <td colSpan={7}><strong>Amount in Words: </strong>{amountInWords}</td>
             </tr>
         </>
     );

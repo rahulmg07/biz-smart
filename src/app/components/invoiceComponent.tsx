@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import styles from "./invoiceComponent.module.css";
 import ProductList, { ProductDetails } from "./productListComponent";
-import { handleExportToPDF, printInvoice } from '../utils';
 import { useRef } from "react";
 
 interface InvoiceData {
@@ -27,9 +26,7 @@ interface InvoiceData {
         vehicleNumber: string;
     },
     productDetails: Array<ProductDetails>
-    bankDetails: {
-
-    }
+    bankDetails: object;
 }
 
 const defaultValues = {
@@ -155,7 +152,7 @@ export default function InvoiceComponent() {
                                 <br />
 
                             </td>
-                            <td colSpan={4}>
+                            <td colSpan={4} >
                                 <strong>Invoice no:</strong>&nbsp;
                                 {isEditMode ? (
                                     <input

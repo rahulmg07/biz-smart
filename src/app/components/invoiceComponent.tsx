@@ -31,7 +31,7 @@ interface InvoiceData {
 
 const defaultValues = {
     company: {
-        name: "UNIVERSAL POWER SOLUTIONS (Testing! auto deployment)",
+        name: "UNIVERSAL POWER SOLUTIONS (Testing 2nd phase)",
         description1: "All types of transformer sales & services, power & distribution transformer manufacturing.",
         description2: "GOVT. LICENCED CLASS 1 ELECTRICAL CONTRACTOR",
         address1: "#No.11, Suvarna Nagara Near Bus Stop, Doddabidrekallu,",

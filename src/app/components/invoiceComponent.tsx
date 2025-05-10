@@ -111,7 +111,7 @@ export default function InvoiceComponent() {
                 <table className={styles.invoiceTable}>
                     <thead>
                         <tr>
-                            <td colSpan={7} className={styles.invoiceGST}>GSTIN:29ANOPH7514D1ZW</td>
+                            <td colSpan={7} className={styles.invoiceGST}>GST:29ANOPH7514D1ZW</td>
                         </tr>
                         <tr>
 
